@@ -1,27 +1,27 @@
 import 'package:kasir_app/core/utils/datetime_utils.dart';
 
-class User {
-  final String id;
+class Category {
+  final String? id;
   final String name;
-  final String email;
   final DateTime? createdAt;
   final DateTime? updatedAt;
+  final DateTime? deletedAt;
 
-  User({
-    required this.id,
+  Category({
+    this.id,
     required this.name,
-    required this.email,
     this.createdAt,
     this.updatedAt,
+    this.deletedAt,
   });
 
-  factory User.fromJson(Map<String, dynamic> json) {
-    return User(
+  factory Category.fromJson(Map<String, dynamic> json) {
+    return Category(
       id: json['id'],
       name: json['name'],
-      email: json['email'],
       createdAt: DatetimeUtils.fromStringToDateTime(json['created_at']),
       updatedAt: DatetimeUtils.fromStringToDateTime(json['updated_at']),
+      deletedAt: DatetimeUtils.fromStringToDateTime(json['deleted_at']),
     );
   }
 
@@ -29,13 +29,13 @@ class User {
     return {
       'id': id,
       'name': name,
-      'email': email,
       'created_at': DatetimeUtils.fromDateTimeToString(createdAt),
       'updated_at': DatetimeUtils.fromDateTimeToString(updatedAt),
+      'deleted_at': DatetimeUtils.fromDateTimeToString(deletedAt),
     };
   }
 
   @override
   String toString() =>
-      'User(id: $id, name: $name, email: $email, created_at: $createdAt, updated_at: $updatedAt)';
+      'Category(id: $id, name: $name, created_at: $createdAt, updated_at: $updatedAt, deleted_at: $deletedAt)';
 }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kasir_app/features/product/service/product_service.dart';
+import 'package:kasir_app/features/product/service/product/product_service.dart';
 
 class ListProductViewModel extends ChangeNotifier {
   final ProductService _productService;
