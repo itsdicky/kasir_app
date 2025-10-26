@@ -1,4 +1,6 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart' hide Category;
+import 'package:kasir_app/features/product/model/category.dart';
+import 'package:kasir_app/features/product/model/product.dart';
 import 'package:kasir_app/features/product/service/product/product_service.dart';
 
 class ListProductViewModel extends ChangeNotifier {
@@ -6,16 +8,28 @@ class ListProductViewModel extends ChangeNotifier {
   ListProductViewModel(ProductService productService)
     : _productService = productService;
 
-  List<String> _categories = [];
-  List<String> get categories => _categories;
+  final List<Category> _categories = [];
+  List<Category> get categories => _categories;
 
-  String _selectedCategory = 'All';
-  String get selectedCategory => _selectedCategory;
+  final List<Product> _products = [];
+  List<Product> get products => _products;
+
+  Category _selectedCategory = Category(name: "");
+  Category get selectedCategory => _selectedCategory;
 
   Future<void> getCategories() async {}
 
-  Future<void> setCategory(String newCategory) async {
+  Future<void> setCategory(Category newCategory) async {
     _selectedCategory = newCategory;
     notifyListeners();
   }
+
+  Future<void> fetchProducts() async {
+    final fetchedProducts = await _productService.fetchProductList();
+    _products.clear();
+    _products.addAll(fetchedProducts);
+    notifyListeners();
+  }
+
+  //TODO: make category filter
 }
