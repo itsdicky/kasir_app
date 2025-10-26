@@ -1,3 +1,5 @@
 abstract class AuthService {
-  Future<String> authenticate(String username, String password);
+  Future<bool> isLoggedIn();
+  Future<void> login(String username, String password);
+  Future<void> logout();
 }

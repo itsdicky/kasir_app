@@ -2,6 +2,13 @@ import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:kasir_app/core/config/http/auth_interceptors.dart';
 import 'package:kasir_app/core/config/http/dio.dart';
+import 'package:kasir_app/features/product/service/category/category_service_impl.dart';
+import 'package:kasir_app/features/product/service/product/product_service_impl.dart';
+import 'package:kasir_app/features/user/service/auth/auth_service_impl.dart';
+import 'package:kasir_app/features/user/service/user/user_service_impl.dart';
+import 'package:kasir_app/features/user/view_model/auth_view_model.dart';
+import 'package:kasir_app/features/user/view_model/user_view_model.dart';
+import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -18,6 +25,36 @@ class ProvidersDi {
   }
 
   static List<SingleChildWidget> get providers {
-    return [];
+    return <SingleChildWidget>[
+      Provider<AuthServiceImpl>(
+        create: (_) => AuthServiceImpl(_dio, _sharedPreferences),
+      ),
+      Provider<UserServiceImpl>(create: (_) => UserServiceImpl(_dio)),
+      Provider<ProductServiceImpl>(create: (_) => ProductServiceImpl(_dio)),
+      Provider<CategoryServiceImpl>(create: (_) => CategoryServiceImpl(_dio)),
+      ChangeNotifierProvider<AuthViewModel>(
+        lazy: false,
+        create: (context) =>
+            AuthViewModel(Provider.of<AuthServiceImpl>(context, listen: false))
+              ..checkAuth(),
+      ),
+      ChangeNotifierProxyProvider<AuthViewModel, UserViewModel>(
+        create: (context) =>
+            UserViewModel(Provider.of<UserServiceImpl>(context, listen: false)),
+        update: (context, authViewModel, userViewModel) {
+          if (authViewModel.isLoggedIn! || userViewModel == null) {
+            print('User Model Update');
+            print(
+              authViewModel.isLoggedIn! ? 'Authenticated' : 'Not Authenticated',
+            );
+            return UserViewModel(
+              Provider.of<UserServiceImpl>(context, listen: false),
+            )..fetchUserDetails();
+          } else {
+            return userViewModel..fetchUserDetails();
+          }
+        },
+      ),
+    ];
   }
 }
