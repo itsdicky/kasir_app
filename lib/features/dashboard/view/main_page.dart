@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kasir_app/core/config/routes.dart';
 import 'package:kasir_app/features/product/view/list_product_subpage.dart';
+import 'package:kasir_app/features/product/view/widget/add_category_widget.dart';
 import 'package:kasir_app/features/user/view/profile_subpage.dart';
 
 class MainPage extends StatefulWidget {
@@ -16,24 +17,25 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('MASPOS'),
-        actions: [
-          IconButton(onPressed: () {}, icon: Icon(Icons.search)),
-          IconButton(
-            onPressed: () {},
-            icon: Icon(Icons.shopping_cart_outlined),
-          ),
-          Icon(Icons.person_outline),
-        ],
-      ),
+      appBar: (_selectedIndex == 0)
+          ? AppBar(
+              title: Text('MASPOS'),
+              actions: [
+                IconButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/cart');
+                  },
+                  icon: Icon(Icons.shopping_cart_outlined),
+                ),
+                Icon(Icons.person_outline),
+              ],
+            )
+          : null,
       body: Builder(
         builder: (context) {
           switch (_selectedIndex) {
             case 0:
               return ListProductSubpage();
-            case 1:
-              return ErrorPage();
             case 2:
               return ProfileSubpage();
             default:
@@ -44,6 +46,10 @@ class _MainPageState extends State<MainPage> {
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
         onTap: (index) {
+          if (index == 1) {
+            _showMyBottomSheet(context);
+            return;
+          }
           setState(() {
             _selectedIndex = index;
           });
@@ -71,4 +77,53 @@ class _MainPageState extends State<MainPage> {
       ),
     );
   }
+
+  void _showMyBottomSheet(BuildContext context) {
+    AddType addType = AddType.undefined;
+
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return SizedBox(
+          height: 200,
+          child: Padding(
+            padding: EdgeInsetsGeometry.all(24),
+            child: StatefulBuilder(
+              builder: (context, setState) {
+                switch (addType) {
+                  case AddType.category:
+                    return AddCategoryWidget();
+                  case AddType.product:
+                    return AddCategoryWidget();
+                  default:
+                    return Row(
+                      children: [
+                        OutlinedButton(
+                          onPressed: () {
+                            setState(() {
+                              addType = AddType.category;
+                            });
+                          },
+                          child: Text('Tambah Kategori'),
+                        ),
+                        OutlinedButton(
+                          onPressed: () {
+                            setState(() {
+                              addType = AddType.product;
+                            });
+                          },
+                          child: Text('Tambah Produk'),
+                        ),
+                      ],
+                    );
+                }
+              },
+            ),
+          ),
+        );
+      },
+    );
+  }
 }
+
+enum AddType { product, category, undefined }

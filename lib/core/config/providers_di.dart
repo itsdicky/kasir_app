@@ -2,8 +2,11 @@ import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:kasir_app/core/config/http/auth_interceptors.dart';
 import 'package:kasir_app/core/config/http/dio.dart';
+import 'package:kasir_app/features/product/service/category/category_service.dart';
 import 'package:kasir_app/features/product/service/category/category_service_impl.dart';
+import 'package:kasir_app/features/product/service/product/product_service.dart';
 import 'package:kasir_app/features/product/service/product/product_service_impl.dart';
+import 'package:kasir_app/features/product/view_model/cart_view_model.dart';
 import 'package:kasir_app/features/user/service/auth/auth_service_impl.dart';
 import 'package:kasir_app/features/user/service/user/user_service_impl.dart';
 import 'package:kasir_app/features/user/view_model/auth_view_model.dart';
@@ -30,8 +33,8 @@ class ProvidersDi {
         create: (_) => AuthServiceImpl(_dio, _sharedPreferences),
       ),
       Provider<UserServiceImpl>(create: (_) => UserServiceImpl(_dio)),
-      Provider<ProductServiceImpl>(create: (_) => ProductServiceImpl(_dio)),
-      Provider<CategoryServiceImpl>(create: (_) => CategoryServiceImpl(_dio)),
+      Provider<ProductService>(create: (_) => ProductServiceImpl(_dio)),
+      Provider<CategoryService>(create: (_) => CategoryServiceImpl(_dio)),
       ChangeNotifierProvider<AuthViewModel>(
         lazy: false,
         create: (context) =>
@@ -55,6 +58,7 @@ class ProvidersDi {
           }
         },
       ),
+      ChangeNotifierProvider<CartViewModel>(create: (_) => CartViewModel()),
     ];
   }
 }

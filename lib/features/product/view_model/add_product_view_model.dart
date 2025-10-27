@@ -6,6 +6,8 @@ import 'package:kasir_app/features/product/model/product.dart';
 import 'package:kasir_app/features/product/service/category/category_service.dart';
 import 'package:kasir_app/features/product/service/product/product_service.dart';
 
+enum Status { success, failed, undefined }
+
 class AddProductViewModel extends ChangeNotifier {
   ProductService _productService;
   CategoryService _categoryService;
@@ -24,6 +26,9 @@ class AddProductViewModel extends ChangeNotifier {
   List<Category> _categories = [];
   List<Category> get categories => _categories;
 
+  Status _status = Status.undefined;
+  Status get status => _status;
+
   Future<void> addProduct(
     String name,
     int price,
@@ -31,13 +36,20 @@ class AddProductViewModel extends ChangeNotifier {
     File picture,
   ) async {
     // Implementation for adding a product
-    _productService.createProduct(
-      Product(
-        name: name,
-        price: price,
-        categoryId: category.id!,
-        picture: picture,
-      ),
-    );
+    try {
+      await _productService.createProduct(
+        Product(
+          name: name,
+          price: price,
+          categoryId: category.id!,
+          picture: picture,
+        ),
+      );
+      _status = Status.success;
+    } catch (e) {
+      _status = Status.failed;
+    } finally {
+      notifyListeners();
+    }
   }
 }
