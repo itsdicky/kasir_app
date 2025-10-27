@@ -10,7 +10,7 @@ class AddCategoryWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Provider<AddCategoryViewModel>(
+    return ChangeNotifierProvider<AddCategoryViewModel>(
       create: (_) => AddCategoryViewModel(
         Provider.of<CategoryService>(context, listen: false),
       ),
@@ -19,6 +19,7 @@ class AddCategoryWidget extends StatelessWidget {
           switch (model.status) {
             case Status.undefined:
               return Column(
+                spacing: 16,
                 children: [
                   TextField(controller: controller),
                   FilledButton(

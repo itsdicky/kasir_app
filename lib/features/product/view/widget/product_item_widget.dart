@@ -11,34 +11,96 @@ class ProductItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SizedBox(height: 100, child: Image.network(product.pictureUrl!)),
-          SizedBox(height: 10),
-          Text(product.name),
-          SizedBox(height: 5),
-          Text('\Rp.${product.price}'),
-          FilledButton(
-            onPressed: () {
-              Provider.of<CartViewModel>(
-                context,
-                listen: false,
-              ).addToCart(product);
-            },
-            child: Text('Tambah'),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          spacing: 8,
+          children: [
+            Stack(
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadiusGeometry.circular(16),
+                  child: Image.network(
+                    product.pictureUrl!,
+                    fit: BoxFit.cover,
+                    height: 120,
+                    width: double.infinity,
+                  ),
+                ),
+                Positioned(
+                  bottom: 0,
+                  right: 0,
+                  child: IconButton.filledTonal(
+                    onPressed: () {
+                      _showDeleteConfirmation(context);
+                    },
+                    icon: Icon(Icons.delete_outline),
+                  ),
+                ),
+              ],
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [Text(product.name), Text('\Rp.${product.price}')],
+            ),
+            SizedBox(
+              width: double.infinity,
+              child: FilledButton(
+                onPressed: () {
+                  Provider.of<CartViewModel>(
+                    context,
+                    listen: false,
+                  ).addToCart(product);
+                },
+                style: FilledButton.styleFrom(
+                  backgroundColor: Theme.of(context).primaryColor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 12,
+                    horizontal: 16,
+                  ),
+                ),
+                child: Row(
+                  spacing: 4,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [Icon(Icons.add), Text('Tambah')],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Future<void> _showDeleteConfirmation(BuildContext context) async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Konfirmasi Hapus'),
+        content: Text('Yakin ingin menghapus "${product.name}"?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: const Text('Batal'),
           ),
-          OutlinedButton(
-            onPressed: () {
-              Provider.of<ListProductViewModel>(
-                context,
-                listen: false,
-              ).deleteProduct(product);
-            },
-            child: Text('Delete'),
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            child: const Text('Hapus'),
           ),
         ],
       ),
     );
+
+    if (confirmed == true) {
+      Provider.of<ListProductViewModel>(
+        context,
+        listen: false,
+      ).deleteProduct(product);
+    }
   }
 }

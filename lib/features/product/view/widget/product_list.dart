@@ -13,6 +13,7 @@ class ProductList extends StatelessWidget {
         builder: (_, model, __) {
           final products = model.filteredProduct;
           return GridView.builder(
+            padding: EdgeInsets.symmetric(horizontal: 8),
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
               childAspectRatio: 3 / 4,

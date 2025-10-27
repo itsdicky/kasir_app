@@ -21,6 +21,7 @@ class ListProductSubpage extends StatelessWidget {
         children: [
           SearchTextfield(action: (text) {}),
           CategoryTab(),
+          SizedBox(height: 8),
           ProductList(),
         ],
       ),

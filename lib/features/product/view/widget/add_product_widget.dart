@@ -14,7 +14,7 @@ class AddProductWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Provider<AddProductViewModel>(
+    return ChangeNotifierProvider<AddProductViewModel>(
       create: (_) => AddProductViewModel(
         Provider.of<ProductService>(context, listen: false),
         Provider.of<CategoryService>(context, listen: false),

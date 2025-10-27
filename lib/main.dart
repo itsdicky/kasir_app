@@ -24,7 +24,9 @@ class MyApp extends StatelessWidget {
         title: 'Mas.POS',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          colorScheme: ColorScheme.fromSeed(
+            seedColor: const Color.fromARGB(255, 15, 83, 255),
+          ),
         ),
         onGenerateRoute: Routes.generate,
         initialRoute: '/',

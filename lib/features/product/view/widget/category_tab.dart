@@ -23,6 +23,7 @@ class CategoryTab extends StatelessWidget {
                   model.setCategory(null);
                   print(model.selectedCategory.toString());
                 },
+                active: model.selectedCategory == null,
               ),
               ...categories.map((category) {
                 return TabChipsWidget(
@@ -31,6 +32,7 @@ class CategoryTab extends StatelessWidget {
                     model.setCategory(category);
                     print(model.selectedCategory.toString());
                   },
+                  active: model.selectedCategory == category,
                 );
               }),
             ],

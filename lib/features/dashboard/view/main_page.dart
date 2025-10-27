@@ -19,6 +19,8 @@ class _MainPageState extends State<MainPage> {
     return Scaffold(
       appBar: (_selectedIndex == 0)
           ? AppBar(
+              scrolledUnderElevation: 0.0,
+              backgroundColor: Theme.of(context).canvasColor,
               title: Text('MASPOS'),
               actions: [
                 IconButton(
@@ -28,6 +30,7 @@ class _MainPageState extends State<MainPage> {
                   icon: Icon(Icons.shopping_cart_outlined),
                 ),
                 Icon(Icons.person_outline),
+                SizedBox(width: 16),
               ],
             )
           : null,
@@ -83,6 +86,7 @@ class _MainPageState extends State<MainPage> {
 
     showModalBottomSheet(
       context: context,
+      isScrollControlled: true,
       builder: (context) {
         return SizedBox(
           height: 200,
@@ -97,6 +101,7 @@ class _MainPageState extends State<MainPage> {
                     return AddCategoryWidget();
                   default:
                     return Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         OutlinedButton(
                           onPressed: () {
