@@ -5,11 +5,13 @@ import 'package:flutter/material.dart';
 class ImagePickerWidget extends StatelessWidget {
   const ImagePickerWidget({
     super.key,
+    required this.title,
     this.documentImage,
     this.onTap,
     this.isInvalid = false,
   });
 
+  final String title;
   final File? documentImage;
   final Function()? onTap;
   final bool isInvalid;
@@ -19,7 +21,10 @@ class ImagePickerWidget extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text('Lampiran Scan Dokumen'),
+        Text(
+          title,
+          style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+        ),
         const SizedBox(height: 12),
         InkWell(
           borderRadius: BorderRadius.circular(32),
@@ -34,7 +39,7 @@ class ImagePickerWidget extends StatelessWidget {
                     : Theme.of(context).colorScheme.error,
               ),
               borderRadius: BorderRadius.circular(16),
-              color: Theme.of(context).highlightColor,
+              color: Theme.of(context).canvasColor,
             ),
             child: Builder(
               builder: (context) {
@@ -100,7 +105,7 @@ class ImagePickerWidget extends StatelessWidget {
                     ),
                     const SizedBox(height: 24),
                     Text(
-                      'Sentuh disini untuk menambahkan',
+                      'Pilih file yang akan diunggah',
                       style: Theme.of(context).textTheme.labelLarge!.copyWith(
                         color: Theme.of(context).primaryColor,
                       ),

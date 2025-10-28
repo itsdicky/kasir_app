@@ -4,7 +4,9 @@ import 'package:kasir_app/features/user/service/user/user_service.dart';
 
 class UserViewModel extends ChangeNotifier {
   final UserService _userService;
-  UserViewModel(UserService userService) : _userService = userService;
+  UserViewModel(UserService userService) : _userService = userService {
+    fetchUserDetails();
+  }
 
   User? _currentUser;
   User? get currentUser => _currentUser;

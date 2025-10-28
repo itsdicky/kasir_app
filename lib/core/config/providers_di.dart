@@ -47,13 +47,9 @@ class ProvidersDi {
             UserViewModel(Provider.of<UserServiceImpl>(context, listen: false)),
         update: (context, authViewModel, userViewModel) {
           if (authViewModel.isLoggedIn! || userViewModel == null) {
-            print('User Model Update');
-            print(
-              authViewModel.isLoggedIn! ? 'Authenticated' : 'Not Authenticated',
-            );
             return UserViewModel(
               Provider.of<UserServiceImpl>(context, listen: false),
-            )..fetchUserDetails();
+            );
           } else {
             return userViewModel..fetchUserDetails();
           }

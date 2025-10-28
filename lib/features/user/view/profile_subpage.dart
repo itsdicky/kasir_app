@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kasir_app/features/user/view_model/auth_view_model.dart';
+import 'package:kasir_app/features/user/view_model/user_view_model.dart';
 import 'package:provider/provider.dart';
 
 class ProfileSubpage extends StatelessWidget {
@@ -13,7 +14,25 @@ class ProfileSubpage extends StatelessWidget {
         spacing: 84,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Image.asset('./assets/images/profile_placeholder.png', height: 100),
+          Consumer<UserViewModel>(
+            builder: (context, model, child) {
+              final user = model.currentUser;
+              return Column(
+                children: [
+                  Image.asset(
+                    './assets/images/profile_placeholder.png',
+                    height: 100,
+                  ),
+                  SizedBox(height: 16),
+                  Text(
+                    user?.name ?? 'Nama Pengguna',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                  Text(user?.email ?? '-'),
+                ],
+              );
+            },
+          ),
           ListView(
             shrinkWrap: true,
             children: [
@@ -21,7 +40,9 @@ class ProfileSubpage extends StatelessWidget {
                 title: Text('Logout'),
                 leading: Icon(Icons.logout_outlined),
                 trailing: Icon(Icons.chevron_right_outlined),
-                onTap: () {},
+                onTap: () {
+                  _showDeleteConfirmation(context);
+                },
               ),
             ],
           ),
@@ -43,7 +64,7 @@ class ProfileSubpage extends StatelessWidget {
           ),
           TextButton(
             onPressed: () => Navigator.of(context).pop(true),
-            child: const Text('Hapus'),
+            child: const Text('Logout'),
           ),
         ],
       ),

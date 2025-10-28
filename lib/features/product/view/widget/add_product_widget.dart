@@ -2,11 +2,15 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:kasir_app/core/common/widget/dropdown_widget.dart';
 import 'package:kasir_app/core/common/widget/image_picker_widget.dart';
+import 'package:kasir_app/core/common/widget/textfield_widget.dart';
+import 'package:kasir_app/core/config/theme/widget_style.dart';
 import 'package:kasir_app/features/product/model/category.dart';
 import 'package:kasir_app/features/product/service/category/category_service.dart';
 import 'package:kasir_app/features/product/service/product/product_service.dart';
 import 'package:kasir_app/features/product/view_model/add_product_view_model.dart';
+import 'package:kasir_app/features/product/view_model/list_product_view_model.dart';
 import 'package:provider/provider.dart';
 
 class AddProductWidget extends StatefulWidget {
@@ -31,6 +35,7 @@ class _AddProductWidgetState extends State<AddProductWidget> {
       create: (_) => AddProductViewModel(
         Provider.of<ProductService>(context, listen: false),
         Provider.of<CategoryService>(context, listen: false),
+        Provider.of<ListProductViewModel>(context, listen: false),
       ),
       child: Consumer<AddProductViewModel>(
         builder: (context, model, child) {
@@ -44,11 +49,18 @@ class _AddProductWidgetState extends State<AddProductWidget> {
                     vertical: 24,
                   ),
                   child: Column(
-                    spacing: 16,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Tambah Produk'),
+                      Text(
+                        'Tambah Produk',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      SizedBox(height: 16),
                       ImagePickerWidget(
+                        title: 'Gambar Produk',
                         documentImage: _productImage,
                         onTap: () {
                           picker.pickImage(source: ImageSource.gallery).then((
@@ -62,71 +74,60 @@ class _AddProductWidgetState extends State<AddProductWidget> {
                           });
                         },
                       ),
-                      TextFormField(
+                      SizedBox(height: 16),
+                      TextfieldWidget(
+                        title: 'Nama',
+                        hintText: 'Masukkan nama produk',
                         controller: _nameController,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Nama produk harus diisi';
-                          }
-                          return null;
-                        },
+                        isRequired: true,
                       ),
-                      TextFormField(
+                      TextfieldWidget(
+                        title: 'Harga',
+                        hintText: 'Masukkan harga produk',
+                        keyboardType: TextInputType.number,
                         controller: _priceController,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Harga produk harus diisi';
-                          }
-                          return null;
-                        },
+                        isRequired: true,
                       ),
-                      DropdownButtonFormField<Category>(
-                        style: Theme.of(context).textTheme.bodyLarge,
-                        items: List.generate(model.categories.length, (index) {
-                          return DropdownMenuItem<Category>(
-                            value: model.categories[index],
-                            child: Text(
-                              model.categories[index].name,
-                              style: Theme.of(context).textTheme.bodyLarge,
-                            ),
-                          );
-                        }),
+                      DropdownWidget(
+                        title: 'Kategori',
+                        items: model.categories,
+                        textBuilder: (category) => category!.name,
                         onChanged: (value) {
                           setState(() {
                             _selectedCategory = value;
                           });
                         },
-                        dropdownColor: Colors.white,
-                        validator: (value) {
-                          if (value == null) {
-                            return 'Kategori harus diisi';
-                          }
-                          return null;
-                        },
                       ),
+                      SizedBox(height: 48),
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        spacing: 16,
                         children: [
-                          OutlinedButton(
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                            child: Text('Batal'),
+                          Flexible(
+                            child: OutlinedButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              style: WidgetStyle.outlinedButtonStyle(),
+                              child: Text('Batal'),
+                            ),
                           ),
-                          FilledButton(
-                            onPressed: () {
-                              if (_formKey.currentState!.validate() &&
-                                  _selectedCategory != null &&
-                                  _productImage != null) {
-                                model.addProduct(
-                                  _nameController.text,
-                                  int.parse(_priceController.text),
-                                  _selectedCategory!,
-                                  _productImage!,
-                                );
-                              }
-                            },
-                            child: Text('Tambah'),
+                          Flexible(
+                            child: FilledButton(
+                              onPressed: () {
+                                if (_formKey.currentState!.validate() &&
+                                    _selectedCategory != null &&
+                                    _productImage != null) {
+                                  model.addProduct(
+                                    _nameController.text,
+                                    int.parse(_priceController.text),
+                                    _selectedCategory!,
+                                    _productImage!,
+                                  );
+                                }
+                              },
+                              style: WidgetStyle.filledButtonStyle(),
+                              child: Text('Tambah'),
+                            ),
                           ),
                         ],
                       ),
@@ -135,30 +136,106 @@ class _AddProductWidgetState extends State<AddProductWidget> {
                 ),
               );
             case Status.success:
-              return _success();
+              return _success(context);
             case Status.failed:
-              return _failed();
+              return _failed(context);
           }
         },
       ),
     );
   }
 
-  Widget _success() {
-    return Column(
-      children: [
-        Icon(Icons.check_box),
-        Text('Selamat, tambah produk telah berhasil'),
-      ],
+  Widget _success(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
+      child: Column(
+        spacing: 16,
+        children: [
+          Image.asset('assets/images/success.png', height: 120),
+          Column(
+            children: [
+              Text(
+                'Yeay, Berhasil!',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+              ),
+              Text(
+                'Produk kamu sudah masuk daftar! Yuk, tambahin lagi.',
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
+          Row(
+            spacing: 16,
+            children: [
+              Flexible(
+                child: OutlinedButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  style: WidgetStyle.outlinedButtonStyle(),
+                  child: Text('Kembali'),
+                ),
+              ),
+              Flexible(
+                child: FilledButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  style: WidgetStyle.filledButtonStyle(),
+                  child: Text('Tambah'),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 
-  Widget _failed() {
-    return Column(
-      children: [
-        Icon(Icons.check_box),
-        Text('Terjadi kesalahan saat menambahkan produk'),
-      ],
+  Widget _failed(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
+      child: Column(
+        spacing: 16,
+        children: [
+          Image.asset('assets/images/success.png', height: 120),
+          Column(
+            children: [
+              Text(
+                'Gagal!',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+              ),
+              Text(
+                'Terjadi kesalahan saat menambahkan kategori.',
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
+          Row(
+            spacing: 16,
+            children: [
+              Flexible(
+                child: OutlinedButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  style: WidgetStyle.outlinedButtonStyle(),
+                  child: Text('Kembali'),
+                ),
+              ),
+              Flexible(
+                child: FilledButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  style: WidgetStyle.filledButtonStyle(),
+                  child: Text('Tambah'),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kasir_app/core/common/page/loading_page.dart';
 import 'package:kasir_app/core/config/providers_di.dart';
 import 'package:kasir_app/core/config/routes.dart';
+import 'package:kasir_app/core/config/theme/theme_style.dart';
 import 'package:kasir_app/features/dashboard/view/main_page.dart';
 import 'package:kasir_app/features/user/view/login_page.dart';
 import 'package:kasir_app/features/user/view_model/auth_view_model.dart';
@@ -23,11 +24,8 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Mas.POS',
         debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(
-            seedColor: const Color.fromARGB(255, 15, 83, 255),
-          ),
-        ),
+        theme: ThemeStyle.lightTheme,
+        themeMode: ThemeMode.light,
         onGenerateRoute: Routes.generate,
         initialRoute: '/',
         routes: {'/': (context) => _initialPage(context)},

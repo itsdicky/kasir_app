@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kasir_app/core/config/routes.dart';
+import 'package:kasir_app/core/config/theme/widget_style.dart';
 import 'package:kasir_app/features/product/view/list_product_subpage.dart';
 import 'package:kasir_app/features/product/view/widget/add_category_widget.dart';
 import 'package:kasir_app/features/product/view/widget/add_product_widget.dart';
@@ -21,7 +22,7 @@ class _MainPageState extends State<MainPage> {
       appBar: (_selectedIndex == 0)
           ? AppBar(
               scrolledUnderElevation: 0.0,
-              backgroundColor: Theme.of(context).canvasColor,
+              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
               title: Text('MASPOS'),
               actions: [
                 IconButton(
@@ -49,6 +50,7 @@ class _MainPageState extends State<MainPage> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         onTap: (index) {
           if (index == 1) {
             _showMyBottomSheet(context);
@@ -107,27 +109,34 @@ class _MainPageState extends State<MainPage> {
                     default:
                       return Padding(
                         padding: const EdgeInsets.symmetric(
-                          horizontal: 8,
+                          horizontal: 16,
                           vertical: 24,
                         ),
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          spacing: 16,
+                          // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            OutlinedButton(
-                              onPressed: () {
-                                setState(() {
-                                  addType = AddType.category;
-                                });
-                              },
-                              child: Text('Tambah Kategori'),
+                            Flexible(
+                              child: OutlinedButton(
+                                onPressed: () {
+                                  setState(() {
+                                    addType = AddType.category;
+                                  });
+                                },
+                                style: WidgetStyle.outlinedButtonStyle(),
+                                child: Text('Tambah Kategori'),
+                              ),
                             ),
-                            OutlinedButton(
-                              onPressed: () {
-                                setState(() {
-                                  addType = AddType.product;
-                                });
-                              },
-                              child: Text('Tambah Produk'),
+                            Flexible(
+                              child: OutlinedButton(
+                                onPressed: () {
+                                  setState(() {
+                                    addType = AddType.product;
+                                  });
+                                },
+                                style: WidgetStyle.outlinedButtonStyle(),
+                                child: Text('Tambah Produk'),
+                              ),
                             ),
                           ],
                         ),

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:kasir_app/core/common/widget/textfield_widget.dart';
+import 'package:kasir_app/core/config/theme/widget_style.dart';
 import 'package:kasir_app/features/product/service/category/category_service.dart';
 import 'package:kasir_app/features/product/view_model/add_category_view_model.dart';
 import 'package:provider/provider.dart';
@@ -6,6 +8,7 @@ import 'package:provider/provider.dart';
 class AddCategoryWidget extends StatelessWidget {
   AddCategoryWidget({super.key});
 
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController controller = TextEditingController();
 
   @override
@@ -27,22 +30,39 @@ class AddCategoryWidget extends StatelessWidget {
                   spacing: 16,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Tambah Kategori'),
-                    TextField(controller: controller),
+                    Text(
+                      'Tambah Kategori',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    TextfieldWidget(
+                      title: 'Nama',
+                      hintText: 'Masukan nama kategori',
+                      controller: controller,
+                    ),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      spacing: 16,
+                      // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        OutlinedButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                          child: Text('Batal'),
+                        Flexible(
+                          child: OutlinedButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            style: WidgetStyle.outlinedButtonStyle(),
+                            child: Text('Batal'),
+                          ),
                         ),
-                        FilledButton(
-                          onPressed: () {
-                            model.addCategory(controller.text);
-                          },
-                          child: Text('Tambah'),
+                        Flexible(
+                          child: FilledButton(
+                            onPressed: () {
+                              model.addCategory(controller.text);
+                            },
+                            style: WidgetStyle.filledButtonStyle(),
+                            child: Text('Tambah'),
+                          ),
                         ),
                       ],
                     ),
@@ -50,30 +70,106 @@ class AddCategoryWidget extends StatelessWidget {
                 ),
               );
             case Status.success:
-              return _success();
+              return _success(context);
             case Status.failed:
-              return _failed();
+              return _failed(context);
           }
         },
       ),
     );
   }
 
-  Widget _success() {
-    return Column(
-      children: [
-        Icon(Icons.check_box),
-        Text('Selamat, tambah kategori telah berhasil'),
-      ],
+  Widget _success(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
+      child: Column(
+        spacing: 16,
+        children: [
+          Image.asset('assets/images/success.png', height: 120),
+          Column(
+            children: [
+              Text(
+                'Yeay, Berhasil!',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+              ),
+              Text(
+                'Produk kamu sudah masuk daftar! Yuk, tambahin lagi.',
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
+          Row(
+            spacing: 16,
+            children: [
+              Flexible(
+                child: OutlinedButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  style: WidgetStyle.outlinedButtonStyle(),
+                  child: Text('Kembali'),
+                ),
+              ),
+              Flexible(
+                child: FilledButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  style: WidgetStyle.filledButtonStyle(),
+                  child: Text('Tambah'),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 
-  Widget _failed() {
-    return Column(
-      children: [
-        Icon(Icons.check_box),
-        Text('Terjadi kesalahan saat menambahkan kategori'),
-      ],
+  Widget _failed(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
+      child: Column(
+        spacing: 16,
+        children: [
+          Image.asset('assets/images/success.png', height: 120),
+          Column(
+            children: [
+              Text(
+                'Gagal!',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+              ),
+              Text(
+                'Terjadi kesalahan saat menambahkan kategori.',
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
+          Row(
+            spacing: 16,
+            children: [
+              Flexible(
+                child: OutlinedButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  style: WidgetStyle.outlinedButtonStyle(),
+                  child: Text('Kembali'),
+                ),
+              ),
+              Flexible(
+                child: FilledButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  style: WidgetStyle.filledButtonStyle(),
+                  child: Text('Tambah'),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }

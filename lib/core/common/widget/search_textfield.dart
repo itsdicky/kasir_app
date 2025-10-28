@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kasir_app/core/config/theme/widget_style.dart';
 
 class SearchTextfield extends StatelessWidget {
   SearchTextfield({super.key, required this.action});
@@ -12,10 +13,9 @@ class SearchTextfield extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: TextField(
         controller: _controller,
-        decoration: InputDecoration(
-          hintText: 'Search...',
+        decoration: WidgetStyle.searchFieldDecoration(
           prefixIcon: Icon(Icons.search),
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(8.0)),
+          hintText: 'Cari produk...',
         ),
         onSubmitted: action,
       ),

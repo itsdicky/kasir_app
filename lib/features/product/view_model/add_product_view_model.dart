@@ -5,16 +5,19 @@ import 'package:kasir_app/features/product/model/category.dart';
 import 'package:kasir_app/features/product/model/product.dart';
 import 'package:kasir_app/features/product/service/category/category_service.dart';
 import 'package:kasir_app/features/product/service/product/product_service.dart';
+import 'package:kasir_app/features/product/view_model/list_product_view_model.dart';
 
 enum Status { success, failed, undefined }
 
 class AddProductViewModel extends ChangeNotifier {
   ProductService _productService;
   CategoryService _categoryService;
+  ListProductViewModel listProductViewModel;
 
   AddProductViewModel(
     ProductService productService,
     CategoryService categoryService,
+    this.listProductViewModel,
   ) : _productService = productService,
       _categoryService = categoryService {
     fetchCategories();
@@ -43,6 +46,7 @@ class AddProductViewModel extends ChangeNotifier {
         ),
       );
       _status = Status.success;
+      listProductViewModel.fetchProducts();
     } catch (e) {
       _status = Status.failed;
     } finally {
