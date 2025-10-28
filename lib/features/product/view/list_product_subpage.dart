@@ -12,19 +12,13 @@ class ListProductSubpage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<ListProductViewModel>(
-      create: (_) => ListProductViewModel(
-        Provider.of<ProductService>(context, listen: false),
-        Provider.of<CategoryService>(context, listen: false),
-      ),
-      child: Column(
-        children: [
-          SearchTextfield(action: (text) {}),
-          CategoryTab(),
-          SizedBox(height: 8),
-          ProductList(),
-        ],
-      ),
+    return Column(
+      children: [
+        SearchTextfield(action: (text) {}),
+        CategoryTab(),
+        SizedBox(height: 8),
+        ProductList(),
+      ],
     );
   }
 }

@@ -17,10 +17,7 @@ class AddProductViewModel extends ChangeNotifier {
     CategoryService categoryService,
   ) : _productService = productService,
       _categoryService = categoryService {
-    _categoryService.fetchCategoryList().then((categories) {
-      _categories = categories;
-      notifyListeners();
-    });
+    fetchCategories();
   }
 
   List<Category> _categories = [];
@@ -50,6 +47,15 @@ class AddProductViewModel extends ChangeNotifier {
       _status = Status.failed;
     } finally {
       notifyListeners();
+    }
+  }
+
+  Future<void> fetchCategories() async {
+    try {
+      _categories = await _categoryService.fetchCategoryList();
+      notifyListeners();
+    } catch (e) {
+      print(e);
     }
   }
 }

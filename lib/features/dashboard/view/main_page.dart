@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kasir_app/core/config/routes.dart';
 import 'package:kasir_app/features/product/view/list_product_subpage.dart';
 import 'package:kasir_app/features/product/view/widget/add_category_widget.dart';
+import 'package:kasir_app/features/product/view/widget/add_product_widget.dart';
 import 'package:kasir_app/features/user/view/profile_subpage.dart';
 
 class MainPage extends StatefulWidget {
@@ -89,40 +90,51 @@ class _MainPageState extends State<MainPage> {
       isScrollControlled: true,
       builder: (context) {
         return SizedBox(
-          height: 200,
+          width: double.infinity,
           child: Padding(
-            padding: EdgeInsetsGeometry.all(24),
-            child: StatefulBuilder(
-              builder: (context, setState) {
-                switch (addType) {
-                  case AddType.category:
-                    return AddCategoryWidget();
-                  case AddType.product:
-                    return AddCategoryWidget();
-                  default:
-                    return Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        OutlinedButton(
-                          onPressed: () {
-                            setState(() {
-                              addType = AddType.category;
-                            });
-                          },
-                          child: Text('Tambah Kategori'),
+            padding: EdgeInsets.only(
+              bottom: MediaQuery.of(context).viewInsets.bottom,
+              top: 28,
+            ),
+            child: SingleChildScrollView(
+              child: StatefulBuilder(
+                builder: (context, setState) {
+                  switch (addType) {
+                    case AddType.category:
+                      return AddCategoryWidget();
+                    case AddType.product:
+                      return AddProductWidget();
+                    default:
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 24,
                         ),
-                        OutlinedButton(
-                          onPressed: () {
-                            setState(() {
-                              addType = AddType.product;
-                            });
-                          },
-                          child: Text('Tambah Produk'),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            OutlinedButton(
+                              onPressed: () {
+                                setState(() {
+                                  addType = AddType.category;
+                                });
+                              },
+                              child: Text('Tambah Kategori'),
+                            ),
+                            OutlinedButton(
+                              onPressed: () {
+                                setState(() {
+                                  addType = AddType.product;
+                                });
+                              },
+                              child: Text('Tambah Produk'),
+                            ),
+                          ],
                         ),
-                      ],
-                    );
-                }
-              },
+                      );
+                  }
+                },
+              ),
             ),
           ),
         );

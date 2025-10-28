@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:kasir_app/core/common/widget/tab_chips_widget.dart';
-import 'package:kasir_app/features/product/model/category.dart';
 import 'package:kasir_app/features/product/view_model/list_product_view_model.dart';
 import 'package:provider/provider.dart';
 

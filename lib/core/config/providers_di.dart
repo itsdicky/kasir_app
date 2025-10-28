@@ -7,6 +7,7 @@ import 'package:kasir_app/features/product/service/category/category_service_imp
 import 'package:kasir_app/features/product/service/product/product_service.dart';
 import 'package:kasir_app/features/product/service/product/product_service_impl.dart';
 import 'package:kasir_app/features/product/view_model/cart_view_model.dart';
+import 'package:kasir_app/features/product/view_model/list_product_view_model.dart';
 import 'package:kasir_app/features/user/service/auth/auth_service_impl.dart';
 import 'package:kasir_app/features/user/service/user/user_service_impl.dart';
 import 'package:kasir_app/features/user/view_model/auth_view_model.dart';
@@ -57,6 +58,12 @@ class ProvidersDi {
             return userViewModel..fetchUserDetails();
           }
         },
+      ),
+      ChangeNotifierProvider<ListProductViewModel>(
+        create: (context) => ListProductViewModel(
+          Provider.of<ProductService>(context, listen: false),
+          Provider.of<CategoryService>(context, listen: false),
+        ),
       ),
       ChangeNotifierProvider<CartViewModel>(create: (_) => CartViewModel()),
     ];

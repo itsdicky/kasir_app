@@ -18,17 +18,36 @@ class AddCategoryWidget extends StatelessWidget {
         builder: (context, model, child) {
           switch (model.status) {
             case Status.undefined:
-              return Column(
-                spacing: 16,
-                children: [
-                  TextField(controller: controller),
-                  FilledButton(
-                    onPressed: () {
-                      model.addCategory(controller.text);
-                    },
-                    child: Text('Tambah'),
-                  ),
-                ],
+              return Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 24,
+                ),
+                child: Column(
+                  spacing: 16,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('Tambah Kategori'),
+                    TextField(controller: controller),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        OutlinedButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: Text('Batal'),
+                        ),
+                        FilledButton(
+                          onPressed: () {
+                            model.addCategory(controller.text);
+                          },
+                          child: Text('Tambah'),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               );
             case Status.success:
               return _success();

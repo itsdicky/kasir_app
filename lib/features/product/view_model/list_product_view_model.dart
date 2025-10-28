@@ -56,7 +56,7 @@ class ListProductViewModel extends ChangeNotifier {
 
   Future<void> deleteProduct(Product product) async {
     try {
-      await _productService.deleteProduct(product.categoryId);
+      await _productService.deleteProduct(product.id!);
       await fetchProducts();
     } catch (e) {
       print(e);
