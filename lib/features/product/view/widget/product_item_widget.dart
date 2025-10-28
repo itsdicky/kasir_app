@@ -21,7 +21,7 @@ class ProductItemWidget extends StatelessWidget {
             Stack(
               children: [
                 ClipRRect(
-                  borderRadius: BorderRadiusGeometry.circular(16),
+                  borderRadius: BorderRadiusGeometry.circular(8),
                   child: Image.network(
                     product.pictureUrl!,
                     fit: BoxFit.cover,
@@ -43,7 +43,13 @@ class ProductItemWidget extends StatelessWidget {
             ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [Text(product.name), Text('\Rp.${product.price}')],
+              children: [
+                Text(
+                  product.name,
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                ),
+                Text('\Rp.${product.price}'),
+              ],
             ),
             SizedBox(
               width: double.infinity,

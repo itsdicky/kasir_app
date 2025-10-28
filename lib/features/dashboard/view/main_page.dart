@@ -23,7 +23,13 @@ class _MainPageState extends State<MainPage> {
           ? AppBar(
               scrolledUnderElevation: 0.0,
               backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-              title: Text('MASPOS'),
+              title: Text(
+                'MASPOS',
+                style: TextStyle(
+                  fontWeight: FontWeight.w800,
+                  color: Theme.of(context).primaryColor,
+                ),
+              ),
               actions: [
                 IconButton(
                   onPressed: () {
@@ -31,7 +37,12 @@ class _MainPageState extends State<MainPage> {
                   },
                   icon: Icon(Icons.shopping_cart_outlined),
                 ),
-                Icon(Icons.person_outline),
+                SizedBox(width: 8),
+                CircleAvatar(
+                  backgroundImage: AssetImage(
+                    'assets/images/profile_placeholder.png',
+                  ),
+                ),
                 SizedBox(width: 16),
               ],
             )
@@ -114,7 +125,6 @@ class _MainPageState extends State<MainPage> {
                         ),
                         child: Row(
                           spacing: 16,
-                          // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             Flexible(
                               child: OutlinedButton(
@@ -123,8 +133,36 @@ class _MainPageState extends State<MainPage> {
                                     addType = AddType.category;
                                   });
                                 },
-                                style: WidgetStyle.outlinedButtonStyle(),
-                                child: Text('Tambah Kategori'),
+                                style: WidgetStyle.outlinedButtonStyle(
+                                  height: 100,
+                                ),
+                                child: Column(
+                                  spacing: 8,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Icon(Icons.add_outlined, size: 28),
+                                        SizedBox(width: 8),
+                                        Text(
+                                          'Kategori',
+                                          style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Text(
+                                      'Buat menu produk lebih rapi',
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        color: Theme.of(context).disabledColor,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                             Flexible(
@@ -134,8 +172,36 @@ class _MainPageState extends State<MainPage> {
                                     addType = AddType.product;
                                   });
                                 },
-                                style: WidgetStyle.outlinedButtonStyle(),
-                                child: Text('Tambah Produk'),
+                                style: WidgetStyle.outlinedButtonStyle(
+                                  height: 100,
+                                ),
+                                child: Column(
+                                  spacing: 8,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Icon(Icons.add_outlined, size: 28),
+                                        SizedBox(width: 8),
+                                        Text(
+                                          'Produk',
+                                          style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Text(
+                                      'Tambahin makanan atau minuman baru',
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        color: Theme.of(context).disabledColor,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ],

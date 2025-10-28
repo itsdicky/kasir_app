@@ -112,11 +112,13 @@ class WidgetStyle {
     );
   }
 
-  static ButtonStyle outlinedButtonStyle() {
+  static ButtonStyle outlinedButtonStyle({double? height}) {
     return OutlinedButton.styleFrom(
       foregroundColor: ColorStyle.primaryBlue,
       side: BorderSide(color: ColorStyle.primaryBlue, width: 2),
-      minimumSize: const Size.fromHeight(56),
+      minimumSize: height != null
+          ? Size.fromHeight(height)
+          : const Size.fromHeight(56),
       textStyle: const TextStyle(fontSize: 16),
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(16)),

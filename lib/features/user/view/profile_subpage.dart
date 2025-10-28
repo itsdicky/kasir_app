@@ -36,13 +36,15 @@ class ProfileSubpage extends StatelessWidget {
           ListView(
             shrinkWrap: true,
             children: [
-              ListTile(
-                title: Text('Logout'),
-                leading: Icon(Icons.logout_outlined),
-                trailing: Icon(Icons.chevron_right_outlined),
-                onTap: () {
-                  _showDeleteConfirmation(context);
-                },
+              Card(
+                child: ListTile(
+                  leading: Icon(Icons.logout),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  title: Text('Logout'),
+                  onTap: () => _showDeleteConfirmation(context),
+                ),
               ),
             ],
           ),

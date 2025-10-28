@@ -18,6 +18,8 @@ class ThemeStyle {
       onSurface: ColorStyle.grey,
       brightness: Brightness.light,
     ),
+
+    bottomSheetTheme: BottomSheetThemeData(backgroundColor: ColorStyle.white),
     // floatingActionButtonTheme: const FloatingActionButtonThemeData(
     //   foregroundColor: ColorStyle.white,
     //   backgroundColor: ColorStyle.indigoPurple
