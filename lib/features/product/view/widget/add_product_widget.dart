@@ -10,7 +10,8 @@ import 'package:kasir_app/features/product/model/category.dart';
 import 'package:kasir_app/features/product/service/category/category_service.dart';
 import 'package:kasir_app/features/product/service/product/product_service.dart';
 import 'package:kasir_app/features/product/view_model/add_product_view_model.dart';
-import 'package:kasir_app/features/product/view_model/list_product_view_model.dart';
+import 'package:kasir_app/features/product/view_model/list_product_view_model.dart'
+    hide Status;
 import 'package:provider/provider.dart';
 
 class AddProductWidget extends StatefulWidget {
@@ -135,6 +136,8 @@ class _AddProductWidgetState extends State<AddProductWidget> {
                   ),
                 ),
               );
+            case Status.loading:
+              return Center(child: CircularProgressIndicator());
             case Status.success:
               return _success(context);
             case Status.failed:

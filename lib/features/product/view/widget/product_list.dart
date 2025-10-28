@@ -12,18 +12,29 @@ class ProductList extends StatelessWidget {
       child: Consumer<ListProductViewModel>(
         builder: (_, model, __) {
           final products = model.filteredProduct;
-          return GridView.builder(
-            padding: EdgeInsets.symmetric(horizontal: 8),
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              childAspectRatio: 3 / 4,
-              crossAxisSpacing: 10,
-              mainAxisSpacing: 10,
+          if (products.isEmpty) {
+            return Center(child: Text('Tidak ada produk tersedia'));
+          }
+          if (model.status == Status.loading) {
+            return Center(child: CircularProgressIndicator());
+          }
+          return RefreshIndicator(
+            child: GridView.builder(
+              padding: EdgeInsets.symmetric(horizontal: 8),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                childAspectRatio: 3 / 4,
+                crossAxisSpacing: 10,
+                mainAxisSpacing: 10,
+              ),
+              itemCount: products.length,
+              itemBuilder: (context, index) {
+                final product = products[index];
+                return ProductItemWidget(product);
+              },
             ),
-            itemCount: products.length,
-            itemBuilder: (context, index) {
-              final product = products[index];
-              return ProductItemWidget(product);
+            onRefresh: () async {
+              await model.fetchProducts();
             },
           );
         },

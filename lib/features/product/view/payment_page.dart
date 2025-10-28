@@ -7,7 +7,11 @@ class PaymentPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Pembayaran')),
-      body: const Center(child: Text('This is the Payment Page')),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [Image.asset('assets/images/qr_code.png')],
+      ),
     );
   }
 }

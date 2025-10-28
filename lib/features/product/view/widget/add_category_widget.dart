@@ -69,6 +69,8 @@ class AddCategoryWidget extends StatelessWidget {
                   ],
                 ),
               );
+            case Status.loading:
+              return Center(child: CircularProgressIndicator());
             case Status.success:
               return _success(context);
             case Status.failed:

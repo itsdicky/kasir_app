@@ -7,7 +7,7 @@ import 'package:kasir_app/features/product/service/category/category_service.dar
 import 'package:kasir_app/features/product/service/product/product_service.dart';
 import 'package:kasir_app/features/product/view_model/list_product_view_model.dart';
 
-enum Status { success, failed, undefined }
+enum Status { success, failed, loading, undefined }
 
 class AddProductViewModel extends ChangeNotifier {
   ProductService _productService;
@@ -35,7 +35,8 @@ class AddProductViewModel extends ChangeNotifier {
     Category category,
     File picture,
   ) async {
-    // Implementation for adding a product
+    _status = Status.loading;
+    notifyListeners();
     try {
       await _productService.createProduct(
         Product(

@@ -4,6 +4,8 @@ import 'package:kasir_app/features/product/model/product.dart';
 import 'package:kasir_app/features/product/service/category/category_service.dart';
 import 'package:kasir_app/features/product/service/product/product_service.dart';
 
+enum Status { success, failed, loading, undefined }
+
 class ListProductViewModel extends ChangeNotifier {
   final ProductService _productService;
   final CategoryService _categoryService;
@@ -21,6 +23,10 @@ class ListProductViewModel extends ChangeNotifier {
 
   final List<Product> _products = [];
   List<Product> get products => _products;
+
+  Status _status = Status.undefined;
+  Status get status => _status;
+
   List<Product> get filteredProduct {
     if (_selectedCategory != null) {
       return _products
@@ -44,13 +50,18 @@ class ListProductViewModel extends ChangeNotifier {
   }
 
   Future<void> fetchProducts() async {
+    _status = Status.loading;
+    notifyListeners();
     try {
       final fetchedProducts = await _productService.fetchProductList();
       _products.clear();
       _products.addAll(fetchedProducts);
-      notifyListeners();
+      _status = Status.success;
     } catch (e) {
+      _status = Status.failed;
       print(e);
+    } finally {
+      notifyListeners();
     }
   }
 

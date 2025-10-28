@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart' hide Category;
 import 'package:kasir_app/features/product/model/category.dart';
 import 'package:kasir_app/features/product/service/category/category_service.dart';
 
-enum Status { success, failed, undefined }
+enum Status { success, failed, loading, undefined }
 
 class AddCategoryViewModel extends ChangeNotifier {
   CategoryService _categoryService;
@@ -22,10 +22,12 @@ class AddCategoryViewModel extends ChangeNotifier {
   Status get status => _status;
 
   Future<void> addCategory(String name) async {
-    if (_categories.any((category) => category.name == name)) {
-      throw Exception('Category with the same name already exists');
-    }
+    _status = Status.loading;
+    notifyListeners();
     try {
+      if (_categories.any((category) => category.name == name)) {
+        throw Exception('Nama Kategori sudah ada');
+      }
       await _categoryService.createCategory(Category(name: name));
       _status = Status.success;
     } catch (e) {
