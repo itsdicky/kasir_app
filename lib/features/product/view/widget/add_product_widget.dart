@@ -139,16 +139,16 @@ class _AddProductWidgetState extends State<AddProductWidget> {
             case Status.loading:
               return Center(child: CircularProgressIndicator());
             case Status.success:
-              return _success(context);
+              return _success(context, model);
             case Status.failed:
-              return _failed(context);
+              return _failed(context, model);
           }
         },
       ),
     );
   }
 
-  Widget _success(BuildContext context) {
+  Widget _success(BuildContext context, AddProductViewModel model) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
       child: Column(
@@ -182,7 +182,7 @@ class _AddProductWidgetState extends State<AddProductWidget> {
               Flexible(
                 child: FilledButton(
                   onPressed: () {
-                    Navigator.of(context).pop();
+                    model.setStatus(Status.undefined);
                   },
                   style: WidgetStyle.filledButtonStyle(),
                   child: Text('Tambah'),
@@ -195,7 +195,7 @@ class _AddProductWidgetState extends State<AddProductWidget> {
     );
   }
 
-  Widget _failed(BuildContext context) {
+  Widget _failed(BuildContext context, AddProductViewModel model) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
       child: Column(
@@ -229,7 +229,7 @@ class _AddProductWidgetState extends State<AddProductWidget> {
               Flexible(
                 child: FilledButton(
                   onPressed: () {
-                    Navigator.of(context).pop();
+                    model.setStatus(Status.undefined);
                   },
                   style: WidgetStyle.filledButtonStyle(),
                   child: Text('Tambah'),

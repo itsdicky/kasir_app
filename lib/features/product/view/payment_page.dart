@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kasir_app/core/utils/datetime_utils.dart';
+import 'package:kasir_app/core/utils/string_utils.dart';
 import 'package:kasir_app/features/product/view_model/cart_view_model.dart';
 import 'package:provider/provider.dart';
 
@@ -44,7 +45,7 @@ class PaymentPage extends StatelessWidget {
                     ),
                     SizedBox(height: 4),
                     Text(
-                      'Rp.${model.totalPrice}',
+                      StringUtils.priceFormatter(model.totalPrice),
                       style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,

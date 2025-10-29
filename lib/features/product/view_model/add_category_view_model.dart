@@ -21,6 +21,11 @@ class AddCategoryViewModel extends ChangeNotifier {
   Status _status = Status.undefined;
   Status get status => _status;
 
+  void setStatus(Status status) {
+    _status = status;
+    notifyListeners();
+  }
+
   Future<void> addCategory(String name) async {
     _status = Status.loading;
     notifyListeners();

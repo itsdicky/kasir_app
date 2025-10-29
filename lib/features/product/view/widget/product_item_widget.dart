@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kasir_app/core/utils/string_utils.dart';
 import 'package:kasir_app/features/product/model/product.dart';
 import 'package:kasir_app/features/product/view_model/cart_view_model.dart';
 import 'package:kasir_app/features/product/view_model/list_product_view_model.dart';
@@ -48,7 +49,7 @@ class ProductItemWidget extends StatelessWidget {
                   product.name,
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                 ),
-                Text('\Rp.${product.price}'),
+                Text(StringUtils.priceFormatter(product.price)),
               ],
             ),
             SizedBox(

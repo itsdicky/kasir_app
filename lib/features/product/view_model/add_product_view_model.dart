@@ -29,6 +29,11 @@ class AddProductViewModel extends ChangeNotifier {
   Status _status = Status.undefined;
   Status get status => _status;
 
+  void setStatus(Status status) {
+    _status = status;
+    notifyListeners();
+  }
+
   Future<void> addProduct(
     String name,
     int price,

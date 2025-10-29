@@ -4,7 +4,9 @@ import 'package:kasir_app/core/config/theme/widget_style.dart';
 import 'package:kasir_app/features/product/view/list_product_subpage.dart';
 import 'package:kasir_app/features/product/view/widget/add_category_widget.dart';
 import 'package:kasir_app/features/product/view/widget/add_product_widget.dart';
+import 'package:kasir_app/features/product/view_model/cart_view_model.dart';
 import 'package:kasir_app/features/user/view/profile_subpage.dart';
+import 'package:provider/provider.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -35,7 +37,21 @@ class _MainPageState extends State<MainPage> {
                   onPressed: () {
                     Navigator.pushNamed(context, '/cart');
                   },
-                  icon: Icon(Icons.shopping_cart_outlined),
+                  icon: Consumer<CartViewModel>(
+                    builder: (_, model, child) {
+                      if (model.cartList.isEmpty) {
+                        return child!;
+                      }
+                      return Badge(
+                        isLabelVisible: true,
+                        label: Text(model.cartList.length.toString()),
+                        offset: const Offset(8, 8),
+                        backgroundColor: Theme.of(context).colorScheme.error,
+                        child: child!,
+                      );
+                    },
+                    child: Icon(Icons.shopping_cart_outlined),
+                  ),
                 ),
                 SizedBox(width: 8),
                 CircleAvatar(
@@ -111,7 +127,7 @@ class _MainPageState extends State<MainPage> {
             ),
             child: SingleChildScrollView(
               child: StatefulBuilder(
-                builder: (context, setState) {
+                builder: (context, setSheetState) {
                   switch (addType) {
                     case AddType.category:
                       return AddCategoryWidget();
@@ -129,7 +145,7 @@ class _MainPageState extends State<MainPage> {
                             Flexible(
                               child: OutlinedButton(
                                 onPressed: () {
-                                  setState(() {
+                                  setSheetState(() {
                                     addType = AddType.category;
                                   });
                                 },
@@ -168,7 +184,7 @@ class _MainPageState extends State<MainPage> {
                             Flexible(
                               child: OutlinedButton(
                                 onPressed: () {
-                                  setState(() {
+                                  setSheetState(() {
                                     addType = AddType.product;
                                   });
                                 },

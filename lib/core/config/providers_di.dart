@@ -43,10 +43,11 @@ class ProvidersDi {
               ..checkAuth(),
       ),
       ChangeNotifierProxyProvider<AuthViewModel, UserViewModel>(
+        lazy: false,
         create: (context) =>
             UserViewModel(Provider.of<UserServiceImpl>(context, listen: false)),
         update: (context, authViewModel, userViewModel) {
-          if (authViewModel.isLoggedIn! || userViewModel == null) {
+          if (authViewModel.isLoggedIn == null || userViewModel == null) {
             return UserViewModel(
               Provider.of<UserServiceImpl>(context, listen: false),
             );

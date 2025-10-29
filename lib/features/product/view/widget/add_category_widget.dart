@@ -44,7 +44,6 @@ class AddCategoryWidget extends StatelessWidget {
                     ),
                     Row(
                       spacing: 16,
-                      // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Flexible(
                           child: OutlinedButton(
@@ -72,16 +71,16 @@ class AddCategoryWidget extends StatelessWidget {
             case Status.loading:
               return Center(child: CircularProgressIndicator());
             case Status.success:
-              return _success(context);
+              return _success(context, model);
             case Status.failed:
-              return _failed(context);
+              return _failed(context, model);
           }
         },
       ),
     );
   }
 
-  Widget _success(BuildContext context) {
+  Widget _success(BuildContext context, AddCategoryViewModel model) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
       child: Column(
@@ -115,7 +114,7 @@ class AddCategoryWidget extends StatelessWidget {
               Flexible(
                 child: FilledButton(
                   onPressed: () {
-                    Navigator.of(context).pop();
+                    model.setStatus(Status.undefined);
                   },
                   style: WidgetStyle.filledButtonStyle(),
                   child: Text('Tambah'),
@@ -128,7 +127,7 @@ class AddCategoryWidget extends StatelessWidget {
     );
   }
 
-  Widget _failed(BuildContext context) {
+  Widget _failed(BuildContext context, AddCategoryViewModel model) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
       child: Column(
@@ -162,10 +161,10 @@ class AddCategoryWidget extends StatelessWidget {
               Flexible(
                 child: FilledButton(
                   onPressed: () {
-                    Navigator.of(context).pop();
+                    model.setStatus(Status.undefined);
                   },
                   style: WidgetStyle.filledButtonStyle(),
-                  child: Text('Tambah'),
+                  child: Text('Ulangi'),
                 ),
               ),
             ],
